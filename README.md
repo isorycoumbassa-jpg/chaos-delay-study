@@ -38,3 +38,23 @@ da/dt = -k₁ a b x - k₃ a b y + k₇ (a₀ - a)
 db/dt = -k₁ a b x - k₃ a b y + k₈
 dx/dt =  k₁ a b x - 2k₂ x² + 2k₃ a b y - k₄ x + k₆
 dy/dt =  2k₂ x² - k₃ a b y - k₅ y
+# Modèle de Doumbouya et al. (1993) - Oregonator réversible à 4 variables
+
+Ce script Python permet d'explorer le comportement du modèle de la réaction de Belousov-Zhabotinsky (BZ) publié dans :
+
+> Doumbouya, S. I., Muenster, A. F., Doona, C. J., & Schneider, F. W. (1993).  
+> *Deterministic chaos in serially coupled chemical oscillators.*  
+> Journal of Physical Chemistry, 97(5), 1025-1031.
+
+## 🧪 Modèle
+
+- **Variables** : X = [Br⁻], Y = [HBrO₂], Z = [BrO₂•], W = [Ce⁴⁺]
+- **Volume du réacteur** : 20 mL (comme dans l'article original)
+- **Paramètre variable** : taux de dilution `kf` (s⁻¹)
+- **Pas de feedback** — modèle de base pour comprendre la dynamique naturelle
+
+## 🚀 Utilisation
+
+### Prérequis
+```bash
+pip install numpy matplotlib scipy
