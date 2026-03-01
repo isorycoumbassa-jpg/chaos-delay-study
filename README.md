@@ -38,8 +38,10 @@ da/dt = -k₁ a b x - k₃ a b y + k₇ (a₀ - a)
 db/dt = -k₁ a b x - k₃ a b y + k₈
 dx/dt =  k₁ a b x - 2k₂ x² + 2k₃ a b y - k₄ x + k₆
 dy/dt =  2k₂ x² - k₃ a b y - k₅ y
+
+## README pour modele_doumbouya_interactif.py
 # Modèle de Doumbouya et al. (1993) - Oregonator réversible à 4 variables
-Readme pour
+
 Ce script Python permet d'explorer le comportement du modèle de la réaction de Belousov-Zhabotinsky (BZ) publié dans :
 
 > Doumbouya, S. I., Muenster, A. F., Doona, C. J., & Schneider, F. W. (1993).  
