@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Modèle DOP (Degn-Olsen-Perram) en réacteur fermé (batch)
-Équations fournies par Doumbouya et al. (2025)
+Olsen (2024).
 SANS flux - k1 est le paramètre de bifurcation
 Version interactive avec sauvegarde automatique des figures
 
