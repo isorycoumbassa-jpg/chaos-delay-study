@@ -178,69 +178,50 @@ def analyser_oscillations(t, y):
 
 
 def tracer_resultats(t, y, k1, figures_dir):
-    """
-    Trace les résultats de la simulation et sauvegarde les figures
-    """
-    # Extraire les variables
-    a = y[:, 0]  # O₂
-    b = y[:, 1]  # NADH
-    x = y[:, 2]  # X
-    y_var = y[:, 3]  # Y
-    
-    # Créer un identifiant pour les fichiers à partir de k1
+    a, b, x, yv = y[:,0], y[:,1], y[:,2], y[:,3]
     k1_str = f"{k1:.4f}".replace('.', '_')
     
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    
-    # Éliminer le transitoire pour l'affichage
-    start = len(t) // 2
+    fig, axes = plt.subplots(2, 2, figsize=(14,10))
+    start = len(t)//2
     end = start + 5000
     
     # 1. Série temporelle (O₂)
-    axes[0, 0].plot(t[start:end], a[start:end], 'b-', lw=0.7)
-    axes[0, 0].set_xlabel('Temps (s)')
-    axes[0, 0].set_ylabel('[A] (O₂)')
-    axes[0, 0].set_title(f'Série temporelle - Oxygène (k₁ = {k1})')
-    axes[0, 0].grid(True, alpha=0.3)
+    axes[0,0].plot(t[start:end], a[start:end], 'b-', lw=0.7)
+    axes[0,0].set_xlabel('Temps (s)')
+    axes[0,0].set_ylabel('[O₂] (µM)')
+    axes[0,0].set_title(f'Série temporelle (k₁ = {k1})')
+    axes[0,0].grid(True)
     
-    # 2. Portrait de phase (O₂ vs B)
-    axes[0, 1].plot(b[start:end], a[start:end], 'r-', lw=0.7)
-    axes[0, 1].set_xlabel('[B] (NADH)')
-    axes[0, 1].set_ylabel('[A] (O₂)')
-    axes[0, 1].set_title('Portrait de phase (A vs B)')
-    axes[0, 1].grid(True, alpha=0.3)
+    # 2. Portrait de phase (B vs A)
+    axes[0,1].plot(b[start:end], a[start:end], 'r-', lw=0.7)
+    axes[0,1].set_xlabel('[NADH] (µM)')
+    axes[0,1].set_ylabel('[O₂] (µM)')
+    axes[0,1].set_title('Portrait de phase')
+    axes[0,1].grid(True)
     
     # 3. Toutes les espèces (zoom)
-    axes[1, 0].plot(t[start:start+1000], a[start:start+1000], 'b-', 
-                    label='A (O₂)', alpha=0.7)
-    axes[1, 0].plot(t[start:start+1000], b[start:start+1000], 'g-', 
-                    label='B (NADH)', alpha=0.7)
-    axes[1, 0].plot(t[start:start+1000], x[start:start+1000], 'm-', 
-                    label='X', alpha=0.7)
-    axes[1, 0].plot(t[start:start+1000], y_var[start:start+1000], 'c-', 
-                    label='Y', alpha=0.7)
-    axes[1, 0].set_xlabel('Temps (s)')
-    axes[1, 0].set_ylabel('Concentration')
-    axes[1, 0].set_title('Toutes les espèces')
-    axes[1, 0].legend(loc='upper right', fontsize=8)
-    axes[1, 0].grid(True, alpha=0.3)
+    axes[1,0].plot(t[start:start+1000], a[start:start+1000], 'b-', label='O₂', alpha=0.7)
+    axes[1,0].plot(t[start:start+1000], b[start:start+1000], 'g-', label='NADH', alpha=0.7)
+    axes[1,0].plot(t[start:start+1000], x[start:start+1000], 'm-', label='X', alpha=0.7)
+    axes[1,0].plot(t[start:start+1000], yv[start:start+1000], 'c-', label='Y', alpha=0.7)
+    axes[1,0].set_xlabel('Temps (s)')
+    axes[1,0].set_ylabel('Concentration (µM)')
+    axes[1,0].set_title('Toutes les espèces')
+    axes[1,0].legend()
+    axes[1,0].grid(True)
     
-    # 4. Spectre de puissance (O₂)
+    # 4. Spectre d'amplitude (O₂) - NOUVELLE VERSION
     f, Pxx = periodogram(a[start:end], fs=10.0)
-    axes[1, 1].semilogy(f[1:200], Pxx[1:200], 'k-', lw=0.8)
-    axes[1, 1].set_xlabel('Fréquence (Hz)')
-    axes[1, 1].set_ylabel('Puissance')
-    axes[1, 1].set_title('Spectre de puissance (A)')
-    axes[1, 1].grid(True, alpha=0.3)
-    axes[1, 1].set_xlim([0, 0.5])
+    amplitude = np.sqrt(Pxx)
+    axes[1,1].plot(f[1:200], amplitude[1:200], 'k-', lw=0.8)
+    axes[1,1].set_xlabel('Fréquence (Hz)')
+    axes[1,1].set_ylabel('Amplitude (µM)')
+    axes[1,1].set_title("Spectre d'amplitude (O₂)")
+    axes[1,1].grid(True)
+    axes[1,1].set_xlim([0, 0.5])
     
     plt.tight_layout()
-    
-    # Sauvegarde dans le dossier figures
-    filename = os.path.join(figures_dir, f'dop_batch_k1_{k1_str}.png')
-    plt.savefig(filename, dpi=150, bbox_inches='tight')
-    print(f"✅ Figure sauvegardée : {filename}")
-    
+    plt.savefig(os.path.join(figures_dir, f'dop_k1_{k1_str}.png'), dpi=150)
     plt.show()
 
 
