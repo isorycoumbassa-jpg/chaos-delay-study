@@ -196,15 +196,16 @@ def analyser_oscillations(t, y):
 
 def tracer_resultats(t, y, kf, figures_dir):
     """
-    Trace les résultats de la simulation et sauvegarde les figures
+    Trace les résultats de la simulation et sauvegarde la figure
+    avec spectre d'amplitude en µM
     """
     # Conversion en µM pour lisibilité
-    X_um = y[:, 0] * 1e6
-    Y_um = y[:, 1] * 1e6
-    Z_um = y[:, 2] * 1e6
-    W_um = y[:, 3] * 1e6
+    X_um = y[:, 0] * 1e6  # Br⁻
+    Y_um = y[:, 1] * 1e6  # HBrO₂
+    Z_um = y[:, 2] * 1e6  # BrO₂•
+    W_um = y[:, 3] * 1e6  # Ce⁴⁺ (variable mesurée)
     
-    # Créer un identifiant pour les fichiers à partir de kf
+    # Créer un identifiant pour le fichier à partir de kf
     kf_str = f"{kf:.2e}".replace('.', '_').replace('e', 'E')
     
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
@@ -217,10 +218,10 @@ def tracer_resultats(t, y, kf, figures_dir):
     axes[0, 0].plot(t[start:end], W_um[start:end], 'b-', lw=0.7)
     axes[0, 0].set_xlabel('Temps (s)')
     axes[0, 0].set_ylabel('[Ce⁴⁺] (µM)')
-    axes[0, 0].set_title(f'Série temporelle - Ce⁴⁺ (kf = {kf:.2e} s⁻¹)')
+    axes[0, 0].set_title(f'Série temporelle - Ce⁴⁺ (kf = {kf:.2e})')
     axes[0, 0].grid(True, alpha=0.3)
     
-    # 2. Portrait de phase (HBrO₂ vs Ce⁴⁺)
+    # 2. Portrait de phase (Br⁻ vs Ce⁴⁺)
     axes[0, 1].plot(Y_um[start:end], W_um[start:end], 'r-', lw=0.7)
     axes[0, 1].set_xlabel('[HBrO₂] (µM)')
     axes[0, 1].set_ylabel('[Ce⁴⁺] (µM)')
@@ -242,19 +243,28 @@ def tracer_resultats(t, y, kf, figures_dir):
     axes[1, 0].legend(loc='upper right', fontsize=8)
     axes[1, 0].grid(True, alpha=0.3)
     
-    # 4. Spectre de puissance (Ce⁴⁺)
+    # ============================================================
+    # 4. Spectre d'AMPLITUDE (Ce⁴⁺) - NOUVELLE VERSION
+    # ============================================================
+    # Calcul du spectre de puissance avec periodogram
     f, Pxx = periodogram(W_um[start:end], fs=10.0)
-    axes[1, 1].semilogy(f[1:200], Pxx[1:200], 'k-', lw=0.8)
+    
+    # Conversion puissance → amplitude (même unité que W_um : µM)
+    amplitude = np.sqrt(Pxx)
+    
+    # Tracé en échelle linéaire (pas semilogy)
+    axes[1, 1].plot(f[1:200], amplitude[1:200], 'k-', lw=0.8)
     axes[1, 1].set_xlabel('Fréquence (Hz)')
-    axes[1, 1].set_ylabel('Puissance')
-    axes[1, 1].set_title('Spectre de puissance (Ce⁴⁺)')
+    axes[1, 1].set_ylabel('Amplitude (µM)')  # Unité physique
+    axes[1, 1].set_title("Spectre d'amplitude (Ce⁴⁺)")
     axes[1, 1].grid(True, alpha=0.3)
     axes[1, 1].set_xlim([0, 0.5])
+    # ============================================================
     
     plt.tight_layout()
     
     # Sauvegarde dans le dossier figures
-    filename = os.path.join(figures_dir, f'simulation_kf_{kf_str}.png')
+    filename = os.path.join(figures_dir, f'doumbouya_kf_{kf_str}.png')
     plt.savefig(filename, dpi=150, bbox_inches='tight')
     print(f"✅ Figure sauvegardée : {filename}")
     
