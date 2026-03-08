@@ -19,7 +19,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ============================================================
-# PARAMÈTRES DU MODÈLE DOP BATCH (MISE À JOUR)
+# PARAMÈTRES DU MODÈLE DOP BATCH (Olsen 2024)
 # ============================================================
 
 # k1 sera demandé interactivement (paramètre de bifurcation)
