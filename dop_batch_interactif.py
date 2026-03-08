@@ -3,6 +3,7 @@
 Modèle DOP (Degn-Olsen-Perram) en réacteur fermé (batch)
 Olsen (2024).
 SANS flux - k1 est le paramètre de bifurcation
+Sans feedback - pour exploration par les doctorants
 Version interactive avec sauvegarde automatique des figures
 
 Auteur: Ibrahima Sory Coumbassa
