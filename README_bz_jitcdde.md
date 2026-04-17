@@ -13,3 +13,14 @@ Ce script implémente le modèle Oregonator réversible à quatre variables (Dou
 
 ```bash
 pip install numpy matplotlib scipy jitcdde psutil
+
+## Utilisation
+
+python3 bz_jitcdde.py
+
+## Auteur
+
+Ibrahima Sory Coumbassa
+Universite de Conakry, Guinee
+
+
