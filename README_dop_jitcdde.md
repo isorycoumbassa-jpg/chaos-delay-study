@@ -38,3 +38,5 @@ cd chaos-delay-study
 
 # Installer les dépendances
 pip install numpy matplotlib scipy jitcdde psutil
+## Utilisation
+python3 dop_jitcdde.py
