@@ -39,4 +39,34 @@ cd chaos-delay-study
 # Installer les dépendances
 pip install numpy matplotlib scipy jitcdde psutil
 ## Utilisation
-python3 dop_jitcdde.py
+
+python3 dop_jitcdde.p
+
+Menu Interactif
+
+MENU PRINCIPAL
+--------------------------------------------------
+1. Changer/entrer la valeur de β (feedback gain)
+2. Simuler une valeur de D
+3. Afficher le résumé des simulations
+4. Sauvegarder et quitter
+5. Quitter sans sauvegarder
+
+## Exemple de session
+
+1. Entrer β : 0.0304
+2. Entrer D : 245
+3. Attendre la simulation
+4. Visualiser les résultats
+
+## Detection automatique de l'environnement
+
+Le script détecte automatiquement 
+la RAM disponible et ajuste les paramètres :
+
+Environnement RAM T_TOTAL SVD/RQA
+Local (Mac) < 16 GB 50000 s Désactivés
+Cloud (GCP) ≥ 16 GB 100000 s Activés
+
+## Fichiers de sortue
+
