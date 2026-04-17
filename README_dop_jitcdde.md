@@ -68,5 +68,7 @@ Environnement RAM T_TOTAL SVD/RQA
 Local (Mac) < 16 GB 50000 s Désactivés
 Cloud (GCP) ≥ 16 GB 100000 s Activés
 
-## Fichiers de sortue
+## Auteur
+Ibrahima Sory Coumbassa (formerly Sory I. Doumbouya)
+Université de Conakry, Guinée
 
